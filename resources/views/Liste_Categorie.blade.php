@@ -304,7 +304,7 @@ $('#Edit').on('show.bs.modal', function(event) {
 </script>
 <script>
 $('#exampleModalCenter').on('show.bs.modal', function(event) {
-
+ 
     var button = $(event.relatedTarget);
     console.log('modal open');
     var Id = button.data('myid');

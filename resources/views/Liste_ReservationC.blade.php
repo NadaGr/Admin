@@ -93,12 +93,12 @@
                         </td>
                         <td class="d-none d-sm-table-cell font-size-sm">{{$resConfirmer->service->nom_service}}</td>
                         <td class="d-none d-sm-table-cell font-size-sm">{{$resConfirmer->updated_at}}</td>
-                        <td class="d-none d-sm-table-cell font-size-sm">{{$resConfirmer->suivi->prochaine_date}}</td>
-                        <td class="d-none d-sm-table-cell font-size-sm">{{$resConfirmer->suivi->montant}}</td>
-                        <td class="d-none d-sm-table-cell font-size-sm">{{$resConfirmer->suivi->description}}</td>
-                        <td class="d-none d-sm-table-cell font-size-sm " id="t" style="color: #0000FF;">{{$resConfirmer->suivi->etat}}
+                        <td class="d-none d-sm-table-cell font-size-sm">{{$resConfirmer->suivi->prochaine_date ?? ''}}</td>
+                        <td class="d-none d-sm-table-cell font-size-sm">{{$resConfirmer->suivi->montant ?? ''}}</td>
+                        <td class="d-none d-sm-table-cell font-size-sm">{{$resConfirmer->suivi->description ?? ''}}</td>
+                        <td class="d-none d-sm-table-cell font-size-sm " id="t" style="color: #0000FF;">{{$resConfirmer->suivi->etat ?? ''}}
                         </td>
-                        <td class="d-none d-sm-table-cell font-size-sm">{{$resConfirmer->suivi->montant_restant}}</td>
+                        <td class="d-none d-sm-table-cell font-size-sm">{{$resConfirmer->suivi->montant_restant ?? ''}}</td>
 
                     </tr>
                     @endforeach

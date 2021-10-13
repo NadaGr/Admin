@@ -50,7 +50,7 @@ class CategorieController extends Controller
     {
            $cat=Categorie::find($req->id);
            $cat->nom_categorie=$req->nom_categorie;
-           if(isset($req->image)){
+           if(isset($req->image)){ 
            $image=$req->image;
            $imageName=time(). '.' .$image->extension();
            $image->move(public_path('images'),$imageName);

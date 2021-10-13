@@ -18,7 +18,7 @@ class Reservation extends Model
     
     public function service()
     {
-        return $this->belongsTo(Service::class)->withTrashed()->withTrashed();;
+        return $this->belongsTo(Service::class)->withTrashed();
     }
     public function client()
     {

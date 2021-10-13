@@ -30,7 +30,7 @@
                         </select>
                     </div>
 
-                    <!-- <div class="mb-3" id="radio">
+                    <div class="mb-3" id="radio">
                         <label for="text" class="col-form-label">Mode de paiement:</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="flexRadioDefault" id="R1">
@@ -43,9 +43,9 @@
                             <label class="form-check-label" for="flexCheckChecked">
                                 Points
                             </label>
-                        </div>
+                     </div>
                        
-                    </div> -->
+                    </div>
                     <div class="mb-3" id="m">
                     <label class="col-form-label">Montant:</label>
                         <input type="number" class="form-control" step="0.001" name="montant" placeholder="montant.."

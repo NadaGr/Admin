@@ -20,7 +20,7 @@ Route::get('/getcatbyname/{nom_categorie}',[CategorieController::class,'getCateg
 Route::post('/updatecat/{id}',[CategorieController::class,'Update'])->name('categorie.update');
 Route::delete('/deletecategorie/{id}',[CategorieController::class,'deleteCategorie']);
 Route::post('/updatecategorie/{id}',[CategorieController::class,'updateCat'])->name('categorie.updatecat');
-
+ 
 //Route concernant Tabl promotion 
 Route::post('/addPromotion',[PromotionController::class,'addPromotion'])->name('add.promo');
 Route::get('/getAllPromo',[PromotionController::class,'getAllPromotion']);
@@ -63,7 +63,7 @@ Route::get('/getAllReserv',[ReservationController::class,'getAllReservation']);
 Route::post('/addReserv',[ReservationController::class,'addResrvation']);
 Route::post('/accepter',[ReservationController::class,'Accepter'])->name('reservation.accepter');
 Route::post('/refuser',[ReservationController::class,'Refuser'])->name('reservation.refuser');
-Route::post('/confirmer',[ReservationController::class,'Confirmer'])->name('reservation.confirmer');
+Route::post('/confirmer',[ReservationController::class,'Confirmer'])->name('reservation.confirmer'); 
 Route::get('/getReservationaccepter',[ReservationController::class,'getReservationaccepter']);
 Route::get('/getReservationconfirmer',[ReservationController::class,'getReservationconfirmer']);
 Route::get('/count',[StatistiquesController::class,'dashboard'])->name('dashboard');

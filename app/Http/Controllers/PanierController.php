@@ -18,6 +18,7 @@ class PanierController extends Controller
        $panier->image=$req->image;
        $panier->service_id=$req->service_id;
        $panier->client_id=$req->client_id;
+       $panier->date_res=$req->date_res;
        $panier->save();
        return response()->json([
         'statusCode' => 200,

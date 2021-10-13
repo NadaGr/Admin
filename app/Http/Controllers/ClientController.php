@@ -63,9 +63,7 @@ class ClientController extends Controller
     public function Update(Request $req)
     {
         $cl=Client::find($req->id);
-        $image=$req->photo;
-        $imageName=time(). '.' .$image->extension();
-        $image->move(public_path('images'),$imageName);
+        
         $cl->nom_user=$req->nom_user;
         $cl->prenom=$req->prenom;
         $cl->telephone=$req->telephone;
@@ -73,7 +71,12 @@ class ClientController extends Controller
         $cl->user_id=$req->user_id;
         $user= User::find($req->user_id);
         $user->email=$req->email;
+        if(isset($req->image)){ 
+        $image=$req->photo;
+        $imageName=time(). '.' .$image->extension();
+        $image->move(public_path('images'),$imageName);        
         $cl->photo=url('images/'.$imageName);
+        }
         $cl->save();
         $user->save();
         return redirect()->back()->with('Client_Update','client is updated');

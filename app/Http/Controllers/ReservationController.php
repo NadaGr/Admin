@@ -44,14 +44,13 @@ return response()->json(
             ['service_id','=', $req->service_id]
             ])->first();
             //dd($req);
-        $service = Service::Where('id',$req->service_id)->first();
-        $clr= Client::Where('id',$req->client_id)->first();
+        $service = Service::withTrashed()->Where('id',$req->service_id)->first();
+        $clr= Client::withTrashed()->Where('id',$req->client_id)->first();
         $id_user=$clr->user_id;
         $res->etat="Acceptée";
         $res->date=$req->date;
+        $Notify->sendNotification($id_user,'Acceptation','Reservation accepté','vous etes acceptée',$service);  
         $res->save();
-       
-        $Notify->sendNotification($id_user,'Acceptation','Reservation accepte','vous etes acceptee',$service);       
         return redirect()->back()->with('Reservation_Aceptée','La reservation a été acceptée');
  
     }
@@ -62,21 +61,21 @@ return response()->json(
             ['client_id','=', $req->client_id],
             ['service_id','=', $req->service_id]
             ])->first();
-        dd($res);
+        //dd($res);
         $Notify = new Notification();
         $service = Service::Where('id',$req->service_id)->first();
         $clr= Client::Where('id',$req->client_id)->first();
         $id_user=$clr->user_id;
         $res->etat="Annulée";
         $res->save();
+        $Notify->sendNotification($id_user,'Annulatin','Reservation Annulée','Votre demande a été annulée', $service);
         $res->delete();
-        $Notify->sendNotification($id_user,'Annulatin','Reservation Annuée','Votre demande a été annulée', $service);
         return redirect()->back()->with('Reservation_Supprimer','La réservation a été supprimée');
     }
     public function Confirmer(Request $req)
     {
-        $prix = Service::find($req->service_id);
-        $p=$prix->prix;
+        $prix = Service::withTrashed()->find($req->service_id);
+        $p=$prix->prix;       
         $suivi= new Suivi();
         $suivi->reservation_id=$req->id;
         $suivi->description=$req->description;
@@ -102,28 +101,29 @@ return response()->json(
         $suivi->prochaine_date=$req->prochaine_date;
         $suivi->save();    
         
-            
+        $Notify = new Notification();
         $res=Reservation::where([
             ['id','=', $req->id],
             ['client_id','=', $req->client_id],
             ['service_id','=', $req->service_id]
             ])->first();
-     $service= Service::where('id','=', $req->service_id)->first();
+     $service= Service::withTrashed()->where('id','=', $req->service_id)->first();
+     $clr= Client::Where('id',$req->client_id)->first();
+     $id_user=$clr->user_id;
      $ptService=$service->nb_points;
      $ptfidele = new PointsFidelite();
      $ptfidele->service_id=$req->service_id;
      $ptfidele->client_id=$req->client_id;
      $ptfidele->NBPointsF=$ptService;
      $ptfidele->save();
-     $res->etat='Confirmée';
-     $res->save();   
-         
+     $res->etat='Confirmée';     
+     $Notify->sendNotification($id_user,'Confirmation','Reservation Confirmée','Votre demande a été Confirmée', $service);
+     $res->save();            
      return redirect()->back()->with('Reservation_confirmer','La réservation a été confirmée');
     }
     public function calculer ($id2){
         $sum=0 ;
         $pt= PointsFidelite::where('client_id', $id2)->get();
-       // dd(count($pt));
      for ($i= 0; $i<count($pt);$i++)
      {
          $sum=$sum+$pt[$i]['NBPointsF'];

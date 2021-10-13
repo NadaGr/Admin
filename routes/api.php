@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logout', 'userController@logout')->name('logout.api');
-    Route::get('/user', 'userController@userdata')->name('user.api');
+    Route::get('/user', 'userController@userdata')->name('user.api'); 
     Route::get('/getallcat', 'CategorieAPIController@getAllCategorie');
     Route::get('/getServiceByCat/{id}', 'CategorieAPIController@getServiceByCat');
     Route::get('/getCategorieById/{id}', 'CategorieAPIController@getCategorieById');

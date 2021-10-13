@@ -21,12 +21,10 @@ class ReservationAPIController extends Controller
             [['client_id','=', $res->client_id],
             ['service_id','=', $res->service_id]]
             )->delete(); 
-        //$res->services()->syncWithoutDetaching($req->service_id);
         return response()->json([
             'statusCode' => 200,
             'body' => 'reservation successfull',
         ]);
-        //return redirect()->back()->with('Promotion_Added','Promotion is Added');
     }
     public function add($id, Request $req)
     {

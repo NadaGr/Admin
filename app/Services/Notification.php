@@ -7,7 +7,7 @@ use App\Models\User;
 
 class Notification 
 {
-    public function sendNotification($id_user,$type,$title,$body,$servce)
+    public function sendNotification($id_user,$type,$title,$body,$serivce)
     {
         $url = 'https://fcm.googleapis.com/fcm/send';
             $FcmToken = User::where('id',$id_user)->pluck('token')->all();
@@ -20,7 +20,7 @@ class Notification
                     "body" => $body,
                 ],
                 "data"=> [
-                    $servce
+                    $service
                 ]
 
             ];
