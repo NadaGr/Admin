@@ -7,7 +7,7 @@ use App\Models\User;
 
 class Notification 
 {
-    public function sendNotification($id_user,$type,$title,$body,$serivce)
+    public function sendNotification($id_user,$type,$title,$body,$service)
     {
         $url = 'https://fcm.googleapis.com/fcm/send';
             $FcmToken = User::where('id',$id_user)->pluck('token')->all();

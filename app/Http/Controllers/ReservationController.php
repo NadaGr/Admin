@@ -18,8 +18,9 @@ class ReservationController extends Controller
     }
     public function getReservationaccepter()
     {
-        $resaccepter= Reservation::with('client','service')->where('etat','Acceptée')->get();             
-        return view('Liste_ReservationA',compact('resaccepter'));
+        $resaccepter= Reservation::with('client','service')->where('etat','Acceptée')->get();  
+        $points = PointsFidelite::all();          
+        return view('Liste_ReservationA',compact('resaccepter','points'));
     }
     public function getReservationconfirmer()
     {
@@ -80,18 +81,18 @@ return response()->json(
         $suivi->reservation_id=$req->id;
         $suivi->description=$req->description;
         $suivi->etat=$req->etat;
-        if($req->montant!=$p && $req->montant_restant==null)
-        {
-            return  redirect()->back()->with('prix_incorrect','Merci de verifier le montant');
-        }
-        else if($req->montant_restant!=null)
-        {
-            $v=$req->montant_restant+$req->montant;
-            if($v!=$p)
-            {
-                return  redirect()->back()->with('prix_incorrect','Merci de verifier le montant restant');
-            }
-        }
+        // if($req->montant!=$p && $req->montant_restant==null)
+        // {
+        //     return  redirect()->back()->with('prix_incorrect','Merci de verifier le montant');
+        // }
+        // else if($req->montant_restant!=null)
+        // {
+        //     $v=$req->montant_restant+$req->montant;
+        //     if($v!=$p)
+        //     {
+        //         return  redirect()->back()->with('prix_incorrect','Merci de verifier le montant restant');
+        //     }
+        // }
         $suivi= new Suivi();
         $suivi->reservation_id=$req->id;
         $suivi->description=$req->description;
@@ -110,11 +111,13 @@ return response()->json(
      $service= Service::withTrashed()->where('id','=', $req->service_id)->first();
      $clr= Client::Where('id',$req->client_id)->first();
      $id_user=$clr->user_id;
+     $clr->SommePoints =$clr->SommePoints + $service->nb_points;
      $ptService=$service->nb_points;
      $ptfidele = new PointsFidelite();
      $ptfidele->service_id=$req->service_id;
      $ptfidele->client_id=$req->client_id;
      $ptfidele->NBPointsF=$ptService;
+     $clr->save();
      $ptfidele->save();
      $res->etat='Confirmée';     
      $Notify->sendNotification($id_user,'Confirmation','Reservation Confirmée','Votre demande a été Confirmée', $service);
@@ -136,6 +139,13 @@ return response()->json(
         $resS= Reservation::FindOrFail($id);
         dd($res->group->service);
         $resC= Reservation::with('client')->get();  
+    }
+    public function AccepterwithPoints(Request $req)
+    {
+        $clr= Client::Where('id',$req->client_id)->first();
+        $clr->SommePoints =$clr->SommePoints - $req->nb_points;
+        $clr->save();
+        return redirect()->back()->with('Reservation_confirmer','La réservation a été confirmée');
     }
 
 

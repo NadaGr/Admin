@@ -13,7 +13,7 @@ class Client extends Model
 
     protected $table='clients';
     protected $fillable = [
-        'nom_user', 'prenom', 'telephone','adresse', 'user_id','phote'
+        'nom_user', 'prenom', 'telephone','adresse', 'user_id','phote','SommePoints'
     ];
 
     public function user()

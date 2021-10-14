@@ -51,6 +51,7 @@
                         <th class="font-size-sm">Email</th>
                         <th class="font-size-sm">Adresse</th>
                         <th class="font-size-sm">Telephone</th>
+                        <th class="font-size-sm">total point</th>
                         <th class="text-center font-size-sm" style="width: 100px;">Actions</th>
                     </tr>
                 </thead>
@@ -66,6 +67,7 @@
                         <td class="font-size-sm">{{ $CU->user->email }}</td>
                         <td class="text-center font-size-sm">{{ $CU->adresse }}</td>
                         <td class="text-cente font-size-smr">{{ $CU->telephone }}</td>
+                        <td class="text-cente font-size-smr">{{ $CU->SommePoints }}</td>
                         <td class=" text-center">
                             <div class="btn-group">
                                 <button class="btn btn-sm btn-light" data-myID="{{ $CU->id }}"

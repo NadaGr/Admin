@@ -9,21 +9,22 @@
             </div>
 
             <div class="modal-body">
-                <form id="form" action="" method="POST" enctype="multipart/form-data">
+                <form id="form" action="" method="" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <input type="hidden" class="form-control" id="id" name="id" value="">
                         <input type="hidden" class="form-control" id="id1" name="client_id" value="">
                         <input type="hidden" class="form-control" id="id2" name="service_id" value="">
+                        <input type="hidden" class="form-control" id="id3" name="nb_points" value="">
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" id="desc">
                         <label for="textarea" class="col-form-label">Description :</label>
                         <textarea class="form-control" id="example-textarea-input" name="description" rows="4"
                             placeholder="Description.." require></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="text" class="col-form-label">Etat d'avancement:</label>
-                        <select class="form-select" aria-label="Default select example" name="etat" require>
+                        <select class="form-select" aria-label="Default select example" name="etat">
                             <option value="terminé" id="T">Terminé</option>
                             <option value="en progress" id="P">En progress</option>
                             <option value="annulé" id="A">Annulé</option>
@@ -33,24 +34,25 @@
                     <div class="mb-3" id="radio">
                         <label for="text" class="col-form-label">Mode de paiement:</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="R1">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" value="espece" id="R"
+                                onclick="Espece()">
                             <label class="form-check-label" for="flexCheckDefault">
                                 Espèces
                             </label>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="R2" checked>
+                        <div class="form-check" id="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" value="points" id="R"
+                                onclick="Points()" >
                             <label class="form-check-label" for="flexCheckChecked">
                                 Points
                             </label>
-                     </div>
-                       
+                        </div>
                     </div>
                     <div class="mb-3" id="m">
-                    <label class="col-form-label">Montant:</label>
+                        <label class="col-form-label">Montant:</label>
                         <input type="number" class="form-control" step="0.001" name="montant" placeholder="montant.."
                             require>
-                        </div>
+                    </div>
                     <div class="mb-3" id="bloc">
                         <div class="mb-3">
                             <label class="col-form-label">Montant restant:</label>
@@ -61,6 +63,20 @@
                             <label for="dateRes" class="col-form-label">Prochaine date de traitement:</label>
                             <input type="datetime-local" class="form-control" id="dateRes" name="prochaine_date"
                                 value="">
+                        </div>
+                    </div>
+                    <div class="row" id="CardPoint">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body" id="textCard1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body" id="textcard2">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -144,7 +160,15 @@
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-light js-tooltip-enabled"
                                     data-myIDcl="{{  $resaccepter->client->id }}"
-                                    data-myIDserv="{{  $resaccepter->service->id }}" data-myId="{{$resaccepter->id}}"
+                                    data-myNom="{{  $resaccepter->client->nom_user }}"
+                                    data-myPrenom="{{  $resaccepter->client->prenom }}"
+                                    data-myTel="{{  $resaccepter->client->telephone }}"
+                                    data-mySumPoint="{{  $resaccepter->client->SommePoints }}"
+                                    data-myIDserv="{{  $resaccepter->service->id }}"
+                                    data-myNomservice="{{$resaccepter->service->nom_service}}"
+                                    data-myPrix="{{$resaccepter->service->prix}}"
+                                    data-myPoint="{{$resaccepter->service->nb_points}}"
+                                    data-myId="{{$resaccepter->id}}"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="tooltip"
                                     title="confirmer">
                                     <i class="fa fa-check-square fa-fw text-info" size="30px"></i>
@@ -201,45 +225,120 @@
 </script>
 <script>
 $('#exampleModal').on('show.bs.modal', function(event) {
-
+    var elt = document.querySelector('select');
+    console.log(document.getElementsByName('flexRadioDefault').value);
     var button = $(event.relatedTarget);
-    console.log('modal open');
     var Id = button.data('myid');
     var Idcl = button.data('myidcl');
     var Idserv = button.data('myidserv');
-    console.log(Id);
-    console.log(Idcl);
-    console.log(Idserv);
+    var Username=button.data('mynom');
+    var Prenom = button.data('myprenom');
+    var Tel = button.data('mytel');
+    var SommePoints = button.data('mysumpoint');
+    var NomService = button.data('mynomservice');
+    var Prix= button.data('myprix');
+    var Point = button.data('mypoint');
+    var elem = document.getElementById('textCard1');
+    elem.innerHTML='<h5 class="card-title">Infos Client</h5>'
+    +'<p class="card-text">Nom Client : '+Username+Prenom+'\n'
+    +'\n total point : '+SommePoints
+    +'<p>Telephone : '+Tel+'.</p>'
+    +'<h5 class="card-title">Infos Service</h5>'
+    +'<p class="card-text">Service : '+NomService+'\n Nombre des Points : '+Point+'.</p>';
     var modal = $(this);
-    var rout = "{{ route('reservation.confirmer') }}";
-    modal.find('.modal-body #id').val(Id);
-    modal.find('.modal-body #id1').val(Idcl);
-    modal.find('.modal-body #id2').val(Idserv);
-    modal.find('.modal-body #form').attr('action', rout);
+    elt.addEventListener('change', function() {
+        let option = this.options[this.selectedIndex].label;
+        console.log(option);
+        if (option == "Annulé") {
+            var rout = "{{ route('reservation.refuser') }}";
+            modal.find('.modal-body #id').val(Id);
+            modal.find('.modal-body #id1').val(Idcl);
+            modal.find('.modal-body #id2').val(Idserv);
+            modal.find('.modal-body #form').attr('action', rout);
+            modal.find('.modal-body #form').attr('method', 'GET');
+        } else if (option == "En progress") {
+            var rout = "{{ route('reservation.confirmer') }}";
+            modal.find('.modal-body #id').val(Id);
+            modal.find('.modal-body #id1').val(Idcl);
+            modal.find('.modal-body #id2').val(Idserv);
+            modal.find('.modal-body #form').attr('action', rout);
+            modal.find('.modal-body #form').attr('method', 'POST');
+        }
+        else if (document.getElementById('R').value=="Points"){
+            var rout = "{{ route('reservation.acceptpoints') }}";
+            modal.find('.modal-body #id').val(Id);
+            modal.find('.modal-body #id1').val(Idcl);
+            modal.find('.modal-body #id2').val(Idserv);
+            modal.find('.modal-body #id3').val(Point);
+            modal.find('.modal-body #form').attr('action', rout);
+            modal.find('.modal-body #form').attr('method', 'POST');
+        }
+        else{
+            var rout = "{{ route('reservation.confirmer') }}";
+            modal.find('.modal-body #id').val(Id);
+            modal.find('.modal-body #id1').val(Idcl);
+            modal.find('.modal-body #id2').val(Idserv);
+            modal.find('.modal-body #form').attr('action', rout);
+            modal.find('.modal-body #form').attr('method', 'POST');
+        }
+
+
+    })
+
 })
 </script>
 <script>
 let bloc = document.getElementById("bloc");
-let radio = document.getElementById("radio");
+let desc = document.getElementById("desc");
 let m = document.getElementById("m");
+let form = document.getElementById("form");
 var elt = document.querySelector('select');
-console.log(document.getElementById('R1'))
 bloc.style.display = "none";
+m.style.display = "none";
 elt.addEventListener('change', function() {
-    console.log(this.options[this.selectedIndex].label);
+    // console.log(this.options[this.selectedIndex].label);
     let option = this.options[this.selectedIndex].label;
-    console.log(option);
+    // console.log(option);
     if (option == "En progress") {
         bloc.style.display = "block";
+        desc.style.display = "block";
+        radio.style.display = "block";
+        m.style.display = "none";
     } else if (option == "Annulé") {
         bloc.style.display = "none";
-        m.style.display = "none"
+        desc.style.display = "none";
+        radio.style.display = "none";
+        m.style.display = "none";
+
     } else {
         bloc.style.display = "none";
-        m.style.display = "block"
+        desc.style.display = "block";
+        radio.style.display = "block";
+        m.style.display = "none";
+        document.getElementById("CardPoint").style.display = "none";
     }
-    
+
 })
+</script>
+<script>
+document.getElementById("CardPoint").style.display = "none";
+document.getElementById("m").style.display = "none";
+
+function Espece() {
+    document.getElementById("m").style.display = 'block';
+    document.getElementById("CardPoint").style.display = "none";
+}
+</script>
+<script>
+document.getElementById("CardPoint").style.display = "none";
+document.getElementById("bloc").style.display = "none";
+document.getElementById("m").style.display = "none";
+
+function Points() {
+    document.getElementById("CardPoint").style.display = 'block';
+    document.getElementById("desc").style.display = 'block';
+    document.getElementById("m").style.display = "none";
+}
 </script>
 
 @endsection

@@ -62,10 +62,12 @@ Route::post('/Updateclient/{id}',[ClientController::class,'Update'])->name('clie
 Route::get('/getAllReserv',[ReservationController::class,'getAllReservation']);
 Route::post('/addReserv',[ReservationController::class,'addResrvation']);
 Route::post('/accepter',[ReservationController::class,'Accepter'])->name('reservation.accepter');
-Route::post('/refuser',[ReservationController::class,'Refuser'])->name('reservation.refuser');
+Route::get('/refuser',[ReservationController::class,'Refuser'])->name('reservation.refuser');
 Route::post('/confirmer',[ReservationController::class,'Confirmer'])->name('reservation.confirmer'); 
 Route::get('/getReservationaccepter',[ReservationController::class,'getReservationaccepter']);
 Route::get('/getReservationconfirmer',[ReservationController::class,'getReservationconfirmer']);
+Route::get('/points/{id}',[ReservationController::class,'calculer'])->name('reservation.points');
+Route::get('/Acceptpoints',[ReservationController::class,'AccepterwithPoints'])->name('reservation.acceptpoints');
 Route::get('/count',[StatistiquesController::class,'dashboard'])->name('dashboard');
 //Route::get('/dashboard', function () {return view('dashboard');})->name('dashboard');
 });
